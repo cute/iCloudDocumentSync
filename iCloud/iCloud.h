@@ -8,12 +8,12 @@
 
 // Check for Objective-C Modules
 #if __has_feature(objc_modules)
-    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
-    @import Foundation;
-    @import UIKit;
+// We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
+@import Foundation;
+@import UIKit;
 #else
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #endif
 
 // Import iCloudDocument
@@ -21,12 +21,11 @@
 
 // Ensure that the build is for iOS 6.0 or higher
 #ifndef __IPHONE_6_0
-    #error iCloudDocumentSync is built with features only available is iOS SDK 6.0 and later.
+#error iCloudDocumentSync is built with features only available is iOS SDK 6.0 and later.
 #endif
 
 // Create a constant for accessing the documents directory
 #define DOCUMENT_DIRECTORY @"Documents"
-
 
 /** iCloud Document Sync makes it easy for developers to integrate the iCloud document storage APIs into iOS applications. This is how iCloud document-storage and management should've been out of the box from Apple. Integrate iCloud into iOS (OS X coming soon) Objective-C document projects with one-line code methods. Sync, upload, manage, and remove documents to and from iCloud with only a few lines of code (compared to the hundreds of lines and hours that it usually takes). Get iCloud up and running in your iOS app in only a few minutes. Updates and more details on this project can be found on [GitHub](http://www.github.com/iRareMedia/iCloudDocumentSync). If you like the project, please star it on GitHub!
  
@@ -47,15 +46,14 @@
  @warning Only available on iOS 6.0 and later on apps with valid code signing and entitlements. Requires Xcode 5.0.1 and later. Check the online documentation for more information on setting up iCloud in your app. */
 @class iCloud;
 @protocol iCloudDelegate;
-NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
+NS_CLASS_AVAILABLE_IOS(6_0)
+    @interface iCloud : NSObject
 
+                        /** @name Singleton */
 
-
-/** @name Singleton */
-
-/** iCloud shared instance object
+                        /** iCloud shared instance object
  @return The shared instance of iCloud */
-+ (instancetype)sharedCloud;
+                        + (instancetype)sharedCloud;
 
 /** Setup iCloud Document Sync and begin the initial document syncing process.
  
@@ -66,14 +64,10 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  If you specify nil for this parameter, this method uses the first container listed in the com.apple.developer.ubiquity-container-identifiers entitlement array. */
 - (void)setupiCloudDocumentSyncWithUbiquityContainer:(NSString *)containerID;
 
-
-
 /** @name Delegate */
 
 /** iCloud Delegate helps call methods when document processes begin or end */
-@property (weak, nonatomic) id <iCloudDelegate> delegate;
-
-
+@property (weak, nonatomic) id<iCloudDelegate> delegate;
 
 /** @name Properties */
 
@@ -91,8 +85,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
 
 /** Enable verbose availability logging for repeated feedback about iCloud availability in the log. Turning this off will prevent availability-related messages from being printed in the log. This property does not relate to the verboseLogging property. */
 @property BOOL verboseAvailabilityLogging;
-
-
 
 /** @name Checking for iCloud */
 
@@ -127,13 +119,10 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @return An NSURL with the iCloud ubiquitous documents directory URL for the current app. Returns the local documents directory if iCloud is not properly setup or available. */
 - (NSURL *)ubiquitousDocumentsDirectoryURL;
 
-
-
 /** @name Syncing with iCloud */
 
 /** Check for and update the list of files stored in your app's iCloud Documents Folder. This method is automatically called by iOS when there are changes to files in the iCloud Directory. The iCloudFilesDidChange:withNewFileNames: delegate method is triggered by this method. */
 - (void)updateFiles;
-
 
 /** @name Uploading to iCloud */
 
@@ -175,15 +164,13 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  
  @param repeatingHandler Code block called after each file is uploaded to iCloud. This block is called every-time a local file is uploaded, therefore it may be called multiple times. The NSError object contains any error information if an error occurred, otherwise it will be nil.
  @param completion Code block called after all files have been uploaded to iCloud. This block is only called once at the end of the method, regardless of any successes or failures that may have occurred during the upload(s). */
-- (void)uploadLocalOfflineDocumentsWithRepeatingHandler:(void (^)(NSString *documentName, NSError *error))repeatingHandler completion:(void (^)(void))completion __attribute__((nonnull (1)));
+- (void)uploadLocalOfflineDocumentsWithRepeatingHandler:(void (^)(NSString *documentName, NSError *error))repeatingHandler completion:(void (^)(void))completion __attribute__((nonnull(1)));
 
 /** Upload a local file to iCloud
  
  @param documentName The name of the local file stored in the application's documents directory. This value must not be nil.
  @param handler Code block called after the file has been uploaded to iCloud */
 - (void)uploadLocalDocumentToCloudWithName:(NSString *)documentName completion:(void (^)(NSError *error))handler __attribute__((nonnull));
-
-
 
 /** @name Sharing iCloud Content */
 
@@ -197,8 +184,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @return The public URL where the file is available */
 - (NSURL *)shareDocumentWithName:(NSString *)documentName completion:(void (^)(NSURL *sharedURL, NSDate *expirationDate, NSError *error))handler __attribute__((nonnull));
 
-
-
 /** @name Deleting iCloud Content */
 
 /** Delete a document from iCloud.
@@ -207,7 +192,7 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  
  @param documentName The name of the document to delete from iCloud. This value must not be nil.
  @param handler Code block called when a file is successfully deleted from iCloud. The NSError object contains any error information if an error occurred, otherwise it will be nil. */
-- (void)deleteDocumentWithName:(NSString *)documentName completion:(void (^)(NSError *error))handler __attribute__((nonnull (1)));
+- (void)deleteDocumentWithName:(NSString *)documentName completion:(void (^)(NSError *error))handler __attribute__((nonnull(1)));
 
 /** Evict a document from iCloud, move it from iCloud to the current application's local documents directory.
  
@@ -216,8 +201,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @param documentName The name of the iCloud document being downloaded from iCloud to the local documents directory. This value must not be nil.
  @param handler Code block called after the file has been uploaded to iCloud. This value must not be nil. */
 - (void)evictCloudDocumentWithName:(NSString *)documentName completion:(void (^)(NSError *error))handler __attribute__((nonnull));
-
-
 
 /** @name Retrieving iCloud Content and Info */
 
@@ -273,8 +256,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @return NSArray with a list of all the files currently stored in your app's iCloud Documents directory. May return a nil value if iCloud is unavailable. */
 - (NSArray *)listCloudFiles;
 
-
-
 /** @name Managing iCloud Content */
 
 /** Rename a document in iCloud
@@ -290,8 +271,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @param newName The new name which the document should be duplicated to (usually the same name with the word "copy" appended to the end). The file specified should not exist, otherwise an error will occur. This value must not be nil.
  @param handler Code block called when the document duplication has completed. The completion block passes and NSError object which contains any error information if an error occurred, otherwise it will be nil. */
 - (void)duplicateOriginalDocument:(NSString *)documentName withNewName:(NSString *)newName completion:(void (^)(NSError *error))handler __attribute__((nonnull));
-
-
 
 /** @name iCloud Document State */
 
@@ -316,8 +295,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @return YES if the monitoring was successfully setup, NO if there was an issue setting up the monitoring. */
 - (BOOL)stopMonitoringDocumentStateChangesForFile:(NSString *)documentName onTarget:(id)sender __attribute__((nonnull));
 
-
-
 /** @name Resolving iCloud Conflicts */
 
 /** Find all the conflicting versions of a specified document
@@ -338,44 +315,11 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @param documentVersion The version of the document which should be kept and saved. All other conflicting versions will be removed. */
 - (void)resolveConflictForFile:(NSString *)documentName withSelectedFileVersion:(NSFileVersion *)documentVersion __attribute__((nonnull));
 
-
-
-/** @name Deprecated Methods */
-
-/** DEPRECATED. Use listCloudFiles instead. Get a list of files stored in iCloud
- 
- @deprecated Deprecated in version 7.3. Use listCloudFiles instead.
- @return NSArray with a list of all the files currently stored in your app's iCloud Documents directory. May return a nil value if iCloud is unavailable. */
-- (NSArray *)getListOfCloudFiles __attribute((deprecated(" use listCloudFiles instead.")));
-
-/** DEPRECATED. Use saveAndCloseDocumentWithName:withContent:completion: instead. Record changes made to a document in iCloud. Changes are saved when the document is closed.
- 
- @deprecated Deprecated beginning in version 7.1. Use saveAndCloseDocumentWithName:withContent:completion: instead. This method may become unavailable in a future version.
- 
- @param documentName The name of the document being written to iCloud. This value must not be nil.
- @param content The data to write to the document
- @param handler Code block called when the document changes are recorded. The completion block passes UIDocument and NSData objects containing the saved document and it's contents in the form of NSData. The NSError object contains any error information if an error occurred, otherwise it will be nil. */
-- (void)saveChangesToDocumentWithName:(NSString *)documentName withContent:(NSData *)content completion:(void (^)(UIDocument *cloudDocument, NSData *documentData, NSError *error))handler __attribute__((nonnull)) __deprecated;
-
-/** DEPRECATED. Use uploadLocalOfflineDocuments instead, like so: [[iCloud sharedCloud] uploadLocalOfflineDocuments];
- 
- @deprecated Deprecated in version 7.0. Use uploadLocalOfflineDocuments instead.
- @param delegate The iCloudDelegate object to be used for delegate notifications */
-+ (void)uploadLocalOfflineDocumentsWithDelegate:(id<iCloudDelegate>)delegate __deprecated;
-
-/** DEPRECATED. Use updateFiles instead, like so: [[iCloud sharedCloud] updateFiles];
- 
- @deprecated Deprecated in version 7.0. Use updateFiles instead.
- @param delegate The iCloudDelegate object to be used for delegate notifications */
-+ (void)updateFilesWithDelegate:(id<iCloudDelegate>)delegate __deprecated;
-
 @end
 
-
-@class iCloud;
+    @class iCloud;
 /** The iCloudDelegate protocol defines the methods used to receive event notifications and allow for deeper control of the iCloud Class. */
 @protocol iCloudDelegate <NSObject>
-
 
 /** @name Optional Delegate Methods */
 
@@ -388,14 +332,11 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @param ubiquityContainer The root URL path to the current application's ubiquity container. This URL may be nil until the ubiquity container is initialized. */
 - (void)iCloudAvailabilityDidChangeToState:(BOOL)cloudIsAvailable withUbiquityToken:(id)ubiquityToken withUbiquityContainer:(NSURL *)ubiquityContainer;
 
-
 /** Called when the iCloud initiaization process is finished and the iCloud is available
  
  @param cloudToken An iCloud ubiquity token that represents the current iCloud identity. Can be used to determine if iCloud is available and if the iCloud account has been changed (ex. if the user logged out and then logged in with a different iCloud account). This object may be nil if iCloud is not available for any reason.
  @param ubiquityContainer The root URL path to the current application's ubiquity container. This URL may be nil until the ubiquity container is initialized. */
 - (void)iCloudDidFinishInitializingWitUbiquityToken:(id)cloudToken withUbiquityContainer:(NSURL *)ubiquityContainer;
-
-
 
 /** Called before creating an iCloud Query filter. Specify the type of file to be queried. 
  
@@ -404,23 +345,19 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @return An NSString with one file extension formatted like this: @"txt" */
 - (NSString *)iCloudQueryLimitedToFileExtension;
 
-
 /** Called before an iCloud Query begins.
  @discussion This may be useful to display interface updates. */
 - (void)iCloudFileUpdateDidBegin;
 
-
 /** Called when an iCloud Query ends.
  @discussion This may be useful to display interface updates. */
 - (void)iCloudFileUpdateDidEnd;
-
 
 /** Tells the delegate that the files in iCloud have been modified
  
  @param files A list of the files now in the app's iCloud documents directory - each NSMetadataItem in the array contains information such as file version, url, localized name, date, etc.
  @param fileNames A list of the file names (NSString) now in the app's iCloud documents directory */
 - (void)iCloudFilesDidChange:(NSMutableArray *)files withNewFileNames:(NSMutableArray *)fileNames;
-
 
 /** Sent to the delegate where there is a conflict between a local file and an iCloud file during an upload or download
  
@@ -434,11 +371,7 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @param localFile An NSDictionary with the local file and various other information. This parameter contains the fileContent as NSData, fileURL as NSURL, and modifiedDate as NSDate. */
 - (void)iCloudFileConflictBetweenCloudFile:(NSDictionary *)cloudFile andLocalFile:(NSDictionary *)localFile;
 
-
-
-
 /** @name Deprecated Delegate Methods */
-
 
 /** DEPRECATED. Sent to the delegate where there is a conflict between a local file and an iCloud file during an upload
  
@@ -447,7 +380,6 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
  @param cloudFile An NSDictionary with the cloud file and various other information. This parameter contains the fileContent as NSData, fileURL as NSURL, and modifiedDate as NSDate.
  @param localFile An NSDictionary with the local file and various other information. This parameter contains the fileContent as NSData, fileURL as NSURL, and modifiedDate as NSDate. */
 - (void)iCloudFileUploadConflictWithCloudFile:(NSDictionary *)cloudFile andLocalFile:(NSDictionary *)localFile __deprecated;
-
 
 /** DEPRECATED. Called when there is an error while performing an iCloud process
  
@@ -492,7 +424,5 @@ NS_CLASS_AVAILABLE_IOS(6_0) @interface iCloud : NSObject
 /** DEPRECATED. Tells the delegate that a document finished downloading
  @deprecated Deprecated in version 6.0. To be removed in version 8.0. Delegate methods are no longer used to report method-specfic conditions and so this method is never called. Completion blocks are now used. */
 - (void)documentsFinishedDownloading __deprecated __unavailable;
-
-
 
 @end

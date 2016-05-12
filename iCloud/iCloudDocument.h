@@ -8,12 +8,12 @@
 
 // Check for Objective-C Modules
 #if __has_feature(objc_modules)
-    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
-    @import Foundation;
-    @import UIKit;
+// We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
+@import Foundation;
+@import UIKit;
 #else
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #endif
 
 /** Use the iCloudDocument class (a subclass of UIDocument) to read and write documents managed by the iCloud class. You should rarely interact directly with iCloudDocument. The iCloud class manages all interactions with iCloudDocument. You can however retieve an iCloudDocument object by specifying its URL in the iCloud class.
@@ -31,8 +31,6 @@
 @protocol iCloudDocumentDelegate;
 @interface iCloudDocument : UIDocument
 
-
-
 /** @name Methods */
 
 /** Initialize a new UIDocument with the specified file path
@@ -41,16 +39,10 @@
  @return UIDocument object at the specified URL */
 - (instancetype)initWithFileURL:(NSURL *)url __attribute__((objc_designated_initializer));
 
-
-
-
 /** @name Delegate */
 
 /** iCloud Delegate helps call methods when document processes begin or end */
-@property (weak, nonatomic) id <iCloudDocumentDelegate> delegate;
-
-
-
+@property (weak, nonatomic) id<iCloudDocumentDelegate> delegate;
 
 /** @name Properties */
 
@@ -72,11 +64,9 @@ NSFileVersion *laterVersion(NSFileVersion *first, NSFileVersion *second);
 
 @end
 
-
 @class iCloudDocument;
 /** The iCloudDocumentDelegate protocol defines the methods used to receive error notifications and allow for deeper control of document handling and management. */
 @protocol iCloudDocumentDelegate <NSObject>
-
 
 /** @name Required Delegate Methods */
 
