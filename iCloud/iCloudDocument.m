@@ -106,7 +106,6 @@ NSFileVersion *laterVersion(NSFileVersion *first, NSFileVersion *second)
 - (void)handleError:(NSError *)error userInteractionPermitted:(BOOL)userInteractionPermitted
 {
     [super handleError:error userInteractionPermitted:userInteractionPermitted];
-    NSLog(@"[iCloudDocument] %@", error);
 
     if ([self.delegate respondsToSelector:@selector(iCloudDocumentErrorOccured:)]) {
         [self.delegate iCloudDocumentErrorOccured:error];
