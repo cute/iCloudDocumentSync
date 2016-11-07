@@ -848,17 +848,25 @@
     iCloudLog(@"[iCloud] Retrieving iCloud document, %@", documentName);
 
     // Check for iCloud availability
-    if ([self quickCloudCheck] == NO)
+    if ([self quickCloudCheck] == NO){
+        NSError *error = [NSError errorWithDomain:@"iCloud is not available" code:403 userInfo:@{}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(nil, nil, error);
+            }
+        });
         return;
-
+    }
     // Check for nil / null document name
     if (documentName == nil || [documentName isEqualToString:@""]) {
         // Log error
         iCloudLog(@"[iCloud] Specified document name must not be empty");
         NSError *error = [NSError errorWithDomain:@"The specified document name was empty / blank and could not be saved. Specify a document name next time." code:001 userInfo:nil];
-
-        handler(nil, nil, error);
-
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(nil, nil, error);
+            }
+        });
         return;
     }
 
@@ -1459,7 +1467,13 @@
     iCloudLog(@"[iCloud] Attempting to delete document");
 
     // Check for iCloud
-    if ([self quickCloudCheck] == NO) {
+    if (![self quickCloudCheck]) {
+        NSError *error = [NSError errorWithDomain:@"iCloud is not available" code:403 userInfo:@{}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         return;
     }
 
@@ -1467,6 +1481,12 @@
     if (documentName == nil || [documentName isEqualToString:@""]) {
         // Log error
         iCloudLog(@"[iCloud] Specified document name must not be empty");
+        NSError *error = [NSError errorWithDomain:@"Specified document name must not be empty" code:500 userInfo:@{}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         return;
     }
 
@@ -1533,6 +1553,12 @@
         }
     }
     @catch (NSException *exception) {
+        NSError *error = [NSError errorWithDomain:exception.reason code:404 userInfo:@{}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         iCloudLog(@"[iCloud] Caught exception while deleting file: %@\n\n%s", exception, __PRETTY_FUNCTION__);
     }
 }
@@ -1713,6 +1739,12 @@
 
     // Check for iCloud
     if ([self quickCloudCheck] == NO) {
+        NSError *error = [NSError errorWithDomain:@"iCloud is not available" code:403 userInfo:@{}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         return;
     }
 
@@ -1720,6 +1752,12 @@
     if (documentName == nil || [documentName isEqualToString:@""] || newName == nil || [newName isEqualToString:@""]) {
         // Log error
         iCloudLog(@"[iCloud] Specified document name must not be empty");
+        NSError *error = [NSError errorWithDomain:@"Specified document name must not be empty" code:001 userInfo:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         return;
     }
 
@@ -1826,6 +1864,12 @@
 
     // Check for iCloud
     if ([self quickCloudCheck] == NO) {
+        NSError *error = [NSError errorWithDomain:@"iCloud is not available" code:403 userInfo:@{}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         return;
     }
 
@@ -1833,6 +1877,12 @@
     if (documentName == nil || [documentName isEqualToString:@""] || newName == nil || [newName isEqualToString:@""]) {
         // Log error
         iCloudLog(@"[iCloud] Specified document name must not be empty");
+        NSError *error = [NSError errorWithDomain:@"Specified document name must not be empty" code:001 userInfo:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handler) {
+                handler(error);
+            }
+        });
         return;
     }
 
